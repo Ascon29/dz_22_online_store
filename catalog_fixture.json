@@ -1,0 +1,57 @@
+[
+{
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+        "name": "Фрукты",
+        "description": "Экзотические фрукты из Австралии"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+        "name": "Овощи",
+        "description": "Местный производитель"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 7,
+    "fields": {
+        "name": "Питахайя",
+        "description": null,
+        "image": "",
+        "category": 1,
+        "price": 200.0,
+        "created_at": "2024-08-10",
+        "updated_at": "2024-08-10"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 8,
+    "fields": {
+        "name": "Орурец",
+        "description": null,
+        "image": "",
+        "category": 2,
+        "price": 20.0,
+        "created_at": "2024-08-10",
+        "updated_at": "2024-08-10"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 9,
+    "fields": {
+        "name": "Манго",
+        "description": null,
+        "image": "",
+        "category": 1,
+        "price": 150.0,
+        "created_at": "2024-10-08",
+        "updated_at": "2024-10-08"
+    }
+}
+]
