@@ -71,7 +71,7 @@ class Migration(migrations.Migration):
                     models.ImageField(
                         blank=True,
                         null=True,
-                        upload_to="catalog/images/",
+                        upload_to="blog/images/",
                         verbose_name="Изображение товара",
                     ),
                 ),
@@ -83,7 +83,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="products",
-                        to="catalog.category",
+                        to="blog.category",
                         verbose_name="Категория",
                     ),
                 ),
