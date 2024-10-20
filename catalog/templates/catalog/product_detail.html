@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'catalog/base.html' %}
 {% load my_tags %}
 {% block title %}Информация о товаре{% endblock %}
 
@@ -9,10 +9,10 @@
 </div>
 <div class="container">
   <img src="{{ product.image | media_filter }}" width="100%">
-  <p>Категория: {{ product.category }}</p>
-  <p>Описание: {{ product.description }}</p>
-  <p>Цена: {{ product.price }}</p>
-  <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:home' %}">Назад</a>
+  <p>Категория: {{ object.category }}</p>
+  <p>Описание: {{ object.description }}</p>
+  <p>Цена: {{ object.price }}</p>
+  <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:product_list' %}">Назад</a>
   <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
 </div>
 
