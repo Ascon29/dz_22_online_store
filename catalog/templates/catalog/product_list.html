@@ -1,12 +1,16 @@
-{% extends 'base.html' %}
+{% extends 'catalog/base.html' %}
 {% load my_tags %}
 {% block content %}
 
-{% include 'header.html' %}
+{% include 'catalog/header.html' %}
 
 <div class="container">
+    <div class="container mb-5">
+        <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:product_create' %}">Добавить товар</a>
+    </div>
+
     <div class="row text-center">
-        {% for product in products %}
+        {% for product in object_list %}
         <div class="col-3">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
@@ -19,7 +23,9 @@
                         <li>- {{ product.category }}</li>
                         <li>- {{ product.description|truncatechars:100 }}</li>
                     </ul>
-                    <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:product_info' product.pk %}">Инофрмация</a>
+                    <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:product_detail' product.pk %}">Инофрмация</a>
+                    <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:product_update' product.pk %}">Редактировать</a>
+                    <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:product_delete' product.pk %}">Удалить</a>
                     <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
                 </div>
             </div>
