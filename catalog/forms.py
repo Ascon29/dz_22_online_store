@@ -4,6 +4,19 @@ from django.forms import ModelForm, BooleanField
 from catalog.models import Product
 
 
+forbidden_words = [
+            "казино",
+            "криптовалюта",
+            "крипта",
+            "биржа",
+            "дешево",
+            "бесплатно",
+            "обман",
+            "полиция",
+            "радар",
+        ]
+
+
 class StyleForm:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -31,25 +44,28 @@ class ProductForm(StyleForm, ModelForm):
             raise ValidationError("Цена не может быть отрицательной")
         return price
 
-    def clean(self):
-        forbidden_words = [
-            "казино",
-            "криптовалюта",
-            "крипта",
-            "биржа",
-            "дешево",
-            "бесплатно",
-            "обман",
-            "полиция",
-            "радар",
-        ]
-        cleaned_data = super().clean()
-        name = cleaned_data.get("name").lower()
-        description = cleaned_data.get("description").lower()
-
+    def clean_name(self):
+        name = self.cleaned_data.get('name').lower()
         for word in forbidden_words:
-            if word in name or word in description:
-                raise ValidationError(
-                    f"Нельзя добавить товар с словом {word} в описании или названии"
-                )
-        return cleaned_data
+            if word in name:
+                raise ValidationError(f"{word} - запрещенное слово для названия")
+        return name
+
+    def clean_description(self):
+        description = self.cleaned_data.get('description').lower()
+        for word in forbidden_words:
+            if word in description:
+                raise ValidationError(f"{word} - запрещенное слово для описания")
+        return description
+
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #     name = cleaned_data.get("name").lower()
+    #     description = cleaned_data.get("description").lower()
+    #
+    #     for word in forbidden_words:
+    #         if word in name or word in description:
+    #             raise ValidationError(
+    #                 f"Нельзя добавить товар с словом {word} в описании или названии"
+    #             )
+    #     return cleaned_data
