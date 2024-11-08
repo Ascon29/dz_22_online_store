@@ -1,3 +1,5 @@
+from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
 from django.db import models
 
 
@@ -16,6 +18,16 @@ class Category(models.Model):
         ordering = ["name"]
 
 
+def validate_file_size(value):
+    """Функция для валидации размера файла"""
+    filesize = value.size
+
+    if filesize > 5242880:
+        raise ValidationError("Максимальный размер файла не должен превышать 5MB")
+    else:
+        return value
+
+
 class Product(models.Model):
     name = models.CharField(max_length=100, verbose_name="Наименование товара")
     description = models.TextField(
@@ -26,6 +38,13 @@ class Product(models.Model):
         verbose_name="Изображение товара",
         blank=True,
         null=True,
+        validators=[
+            FileExtensionValidator(
+                ["jpg", "jpeg", "png"],
+                message="Формат файла должен быть jpg, jpeg или png",
+            ),
+            validate_file_size,
+        ],
     )
     category = models.ForeignKey(
         Category,
