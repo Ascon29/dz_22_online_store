@@ -5,16 +5,16 @@ from catalog.models import Product
 
 
 forbidden_words = [
-            "казино",
-            "криптовалюта",
-            "крипта",
-            "биржа",
-            "дешево",
-            "бесплатно",
-            "обман",
-            "полиция",
-            "радар",
-        ]
+    "казино",
+    "криптовалюта",
+    "крипта",
+    "биржа",
+    "дешево",
+    "бесплатно",
+    "обман",
+    "полиция",
+    "радар",
+]
 
 
 class StyleForm:
@@ -30,7 +30,7 @@ class StyleForm:
 class ProductForm(StyleForm, ModelForm):
     class Meta:
         model = Product
-        fields = "__all__"
+        fields = ["name", "description", "image", "category", "price"]
 
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
@@ -45,14 +45,14 @@ class ProductForm(StyleForm, ModelForm):
         return price
 
     def clean_name(self):
-        name = self.cleaned_data.get('name').lower()
+        name = self.cleaned_data.get("name").lower()
         for word in forbidden_words:
             if word in name:
                 raise ValidationError(f"{word} - запрещенное слово для названия")
         return name
 
     def clean_description(self):
-        description = self.cleaned_data.get('description').lower()
+        description = self.cleaned_data.get("description").lower()
         for word in forbidden_words:
             if word in description:
                 raise ValidationError(f"{word} - запрещенное слово для описания")
