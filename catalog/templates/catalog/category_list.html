@@ -1,0 +1,14 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+
+{% include 'catalog/header.html' %}
+
+<div class="row text-center">
+    {% for category in object_list %}
+    <p>
+        <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:category_product' category.pk %}">{{ category }}</a>
+    </p>
+    {% endfor %}
+</div>
+{% endblock %}
