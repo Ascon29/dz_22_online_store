@@ -2,6 +2,8 @@ from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.db import models
 
+from users.models import User
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name="Наименование категории")
@@ -56,6 +58,18 @@ class Product(models.Model):
     created_at = models.DateField(auto_now_add=True, verbose_name="Дата создания")
     updated_at = models.DateField(auto_now=True, verbose_name="Дата изменения")
 
+    publication_status = models.BooleanField(
+        default=False, verbose_name="Статус публикации"
+    )
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="Владелец",
+        related_name="products",
+        blank=True,
+        null=True,
+    )
+
     def __str__(self):
         return f"{self.name}, цена: {self.price}"
 
@@ -63,3 +77,6 @@ class Product(models.Model):
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
         ordering = ["name"]
+        permissions = [
+            ("can_unpublish_product", "Can unpublish product"),
+        ]
