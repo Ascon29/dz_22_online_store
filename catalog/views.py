@@ -7,7 +7,26 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from catalog.forms import ProductForm
-from catalog.models import Product
+from catalog.models import Product, Category
+from catalog.services import get_product_list_form_cache, get_product_category
+
+
+class CategoryListView(ListView):
+    model = Category
+
+
+class CategoryProductView(ListView):
+    template_name = "catalog/category_product.html"
+    context_object_name = "category_product"
+
+    def get_queryset(self):
+        pk = self.kwargs.get("pk")
+        return get_product_category(pk)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context["category_product"] = self.get_queryset()
+        return context
 
 
 class UnpublishProductView(LoginRequiredMixin, View):
@@ -28,10 +47,13 @@ class ContactsView(TemplateView):
 class ProductListView(ListView):
     model = Product
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["publicated_products"] = Product.objects.filter(publication_status=True)
-        return context
+    def get_queryset(self):
+        return get_product_list_form_cache()
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context["publicated_products"] = Product.objects.filter(publication_status=True)
+    #     return context
 
 
 class ProductDetailView(LoginRequiredMixin, DetailView):
